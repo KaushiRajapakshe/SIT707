@@ -1,5 +1,5 @@
 .project
 .classpath
-/.target
+/target
 /.settings
 /.idea
