@@ -109,12 +109,17 @@ public class SeleniumOperations {
 		// Write code
 		saveScreenshot(driver, "officeworks_error.png");
 
+		// Clear password 
+		elementp.clear();
 
 		// Send password
-		elementp.sendKeys("*");
+		elementp.sendKeys("Kaushi123*");
+
+		// Clear confirm password 
+		elementcp.clear();
 
 		// Send confirm password
-		elementcp.sendKeys("*");
+		elementcp.sendKeys("Kaushi123*");
 
 		// Verify if an error message appears
 		boolean isErrorDisplayed = driver.findElements(By.id("password-helper-text")).size() > 0;
