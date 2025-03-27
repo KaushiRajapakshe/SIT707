@@ -321,7 +321,6 @@ public class DateUtilTest {
         Assert.assertEquals(10, date.getMonth());
         Assert.assertEquals(1, date.getDay());
 	}
-//	need to check
 	
 	@Test
 	public void testMaxOctober1ShouldDecrementToSeptember30() {
