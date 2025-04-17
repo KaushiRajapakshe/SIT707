@@ -387,4 +387,145 @@ public class DateUtilTest {
         Assert.assertEquals(1, date.getMonth());
         Assert.assertEquals(1, date.getDay());
 	}
+
+	// Test cases for day
+	// D1: 1, Non-Leap Year
+	@Test
+	public void testD1NonLeapYearDecrement() {
+		// April max boundary area: max-1
+		DateUtil date = new DateUtil(1, 04, 2023);
+		date.decrement();
+		System.out.println("april01ShouldDecrementToMarch31");
+		Assert.assertEquals(31, date.getDay());
+		Assert.assertEquals(03, date.getMonth());
+		Assert.assertEquals(2023, date.getYear());
+	}
+	@Test
+	public void testD1NonLeapYearIncrement() {
+		// April max boundary area: max+1
+		DateUtil date = new DateUtil(1, 04, 2023);
+		date.increment();
+		System.out.println("april01ShouldIncrementToApril2");
+		Assert.assertEquals(02, date.getDay());
+		Assert.assertEquals(04, date.getMonth());
+		Assert.assertEquals(2023, date.getYear());
+	}
+	// D2: 29, Leap Year
+	@Test
+	public void testD2LeapYearDecrement() {
+		// February max boundary area: max-1
+		DateUtil date = new DateUtil(29, 02, 2024);
+		date.decrement();
+		System.out.println("february29ShouldDecrementToFebruary28");
+		Assert.assertEquals(28, date.getDay());
+		Assert.assertEquals(02, date.getMonth());
+		Assert.assertEquals(2024, date.getYear());
+	}
+	@Test
+	public void testD2LeapYearIncrement() {
+		// February max boundary area: max+1
+		DateUtil date = new DateUtil(29, 02, 2024);
+		date.increment();
+		System.out.println("february29ShouldIncrementToMarch1");
+		Assert.assertEquals(01, date.getDay());
+		Assert.assertEquals(03, date.getMonth());
+		Assert.assertEquals(2024, date.getYear());
+	}
+	// D3: 30, Non-Leap Year
+	@Test
+	public void testD3NonLeapYearDecrement() {
+		// June max boundary area: max-1
+		DateUtil date = new DateUtil(30, 06, 2023);
+		date.decrement();
+		System.out.println("june30ShouldDecrementToJune29");
+		Assert.assertEquals(29, date.getDay());
+		Assert.assertEquals(06, date.getMonth());
+		Assert.assertEquals(2023, date.getYear());
+	}
+	@Test
+	public void testD3NonLeapYearIncrement() {
+		// June max boundary area: max+1
+		DateUtil date = new DateUtil(30, 06, 2023);
+		date.increment();
+		System.out.println("june30ShouldIncrementToJuly1");
+		Assert.assertEquals(01, date.getDay());
+		Assert.assertEquals(07, date.getMonth());
+		Assert.assertEquals(2023, date.getYear());
+	}
+	// D4: 31 Leap Year
+	@Test
+	public void testD4LeapYearDecrement() {
+		// January max boundary area: max-1
+		DateUtil date = new DateUtil(31, 01, 2024);
+		date.decrement();
+		System.out.println("january31ShouldDecrementToJanuary30");
+		Assert.assertEquals(30, date.getDay());
+		Assert.assertEquals(01, date.getMonth());
+		Assert.assertEquals(2024, date.getYear());
+	}
+	@Test
+	public void testD4LeapYearIncrement() {
+		// January max boundary area: max+1
+		DateUtil date = new DateUtil(31, 01, 2024);
+		date.increment();
+		System.out.println("january31ShouldIncrementToFebruary1");
+		Assert.assertEquals(01, date.getDay());
+		Assert.assertEquals(02, date.getMonth());
+		Assert.assertEquals(2024, date.getYear());
+	}
+
+	// Test cases for month
+	// D1, Non-Leap Year
+	@Test
+	public void testM30D1NonLeapYearIncrement() {
+		// April max boundary area: max+1
+		DateUtil date = new DateUtil(30, 4, 2023);
+		date.increment();
+		System.out.println("april30ShouldIncrementToMay1");
+		Assert.assertEquals(01, date.getDay());
+		Assert.assertEquals(05, date.getMonth());
+		Assert.assertEquals(2023, date.getYear());
+	}
+	@Test
+	public void testM30D1NonLeapYearDecrement() {
+		// April max boundary area: max-1
+		DateUtil date = new DateUtil(1, 5, 2023);
+		date.decrement();
+		System.out.println("may1ShouldDecrementToApril30");
+		Assert.assertEquals(30, date.getDay());
+		Assert.assertEquals(04, date.getMonth());
+		Assert.assertEquals(2023, date.getYear());
+	}
+	// D4, Leap Year
+	@Test
+	public void testM31D4LeapYearIncrement() {
+		// December max boundary area: max+1
+		DateUtil date = new DateUtil(31, 12, 2024);
+		date.increment();
+		System.out.println("december31ShouldIncrementToJanuary1");
+		Assert.assertEquals(1, date.getDay());
+		Assert.assertEquals(01, date.getMonth());
+		Assert.assertEquals(2025, date.getYear());
+	}
+	@Test
+	public void testM31D4LeapYearDecrement() {
+		// January max boundary area: max-1
+		DateUtil date = new DateUtil(1, 1, 2019);
+		date.decrement();
+		System.out.println("january1ShouldIncrementToDecember31");
+		Assert.assertEquals(31, date.getDay());
+		Assert.assertEquals(12, date.getMonth());
+		Assert.assertEquals(2018, date.getYear());
+	}
+	// D1, Non-Leap Year;
+	@Test
+	public void testFeb28NonLeapYearIncrement() {
+		// February max boundary area: max+1
+		DateUtil date = new DateUtil(28, 2, 2019);
+		date.increment();
+		System.out.println("february28ShouldIncrementToMArch1");
+		Assert.assertEquals(01, date.getDay());
+		Assert.assertEquals(03, date.getMonth());
+		Assert.assertEquals(2019, date.getYear());
+	}
 }
