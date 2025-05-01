@@ -13,7 +13,7 @@ This project implements how to use Selenium WebDriver with Java to automate the 
 
 1. Clone this repository.
 
-2. Checkout to `week02_2.1P` branch.
+2. Checkout to `week04_4.2C` branch.
 
 3. Open eclips and import the project (as a maven project).
 
@@ -21,9 +21,11 @@ This project implements how to use Selenium WebDriver with Java to automate the 
 
 5. Run the `Main.java` file.
 
-6. The script will launch a Chrome browser and start test.
+6. Run the `MainTest.java` file.
 
-7. After completing the execution, the script will exit, and the Chrome browser will close automatically. You can see the screenshots images in your download folder.
+7. The script will launch a Chrome browser and start test.
+
+8. After completing the execution, the script will exit, and the Chrome browser will close automatically. You can see the screenshots images in your download folder.
 
 ## Output
 The script will generate the following screenshot files in the project directory:
