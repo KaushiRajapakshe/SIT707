@@ -1,13 +1,15 @@
 package sit707_week2;
 
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * @author Ahsan Habib
@@ -15,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class MainTest {
 	
 	private WebDriver driver;
+	private WebDriverWait wait;
     private final String url = "https://www.bunnings.com.au/login";
 
 	@Before
@@ -22,12 +25,12 @@ public class MainTest {
 		System.setProperty("webdriver.chrome.driver",
 				"/Users/kaushirajapakshe/Downloads/chromedriver-mac-x64/chromedriver");
 		System.out.println("Fire up chrome browser.");
+		
 		driver = new ChromeDriver();
 		System.out.println("Driver info: " + driver);
 
-		Thread.sleep(2000);
+		wait = new WebDriverWait(driver, 5000);
 		driver.get(url);
-		Thread.sleep(5000);
 	}
 	
 	@Test
@@ -47,31 +50,22 @@ public class MainTest {
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).clear();
         driver.findElement(By.id("password")).sendKeys(password);
+        wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
         driver.findElement(By.id("login-submit")).click();
     }
 	
 	@Test
 	public void testValidUsernameAndValidPassword() {
 		login("kaushi.rajapakshe1@gmail.com", "Kaushi1211*");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.print(driver.getCurrentUrl());
+		SeleniumOperations.saveScreenshot(driver, "bunnings1.png");
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		Assert.assertTrue(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
 	
 	@Test
 	public void testWrongFormatUsernameAndValidPassword() {
 		login("kaushi.rajapakshe1", "Kaushi1211*");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		System.out.print(driver.getCurrentUrl());
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
@@ -79,12 +73,7 @@ public class MainTest {
 	@Test
 	public void testInValidUsernameAndValidPassword() {
 		login("kaushi.rajapakshe@gmail.com", "Kaushi1211*");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		System.out.print(driver.getCurrentUrl());
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
@@ -92,12 +81,7 @@ public class MainTest {
 	@Test
 	public void testValidUsernameAndInValidPassword() {
 		login("kaushi.rajapakshe1@gmail.com", "Kaushi1211#");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		System.out.print(driver.getCurrentUrl());
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
@@ -105,24 +89,15 @@ public class MainTest {
 	@Test
 	public void testInvalidUsernameAndInvalidPassword() {
 		login("kaushi.rajapakshe@gmail.com", "Kaushi1211#");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		System.out.print(driver.getCurrentUrl());
+		SeleniumOperations.saveScreenshot(driver, "bunnings2.png");
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
 	@Test
 	public void testEmptyUsernameAndValidPassword() {
 		login("", "Kaushi1211#");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		System.out.print(driver.getCurrentUrl());
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
@@ -130,12 +105,7 @@ public class MainTest {
 	@Test
 	public void testValidUsernameAndEmptyPassword() {
 		login("kaushi.rajapakshe1@gmail.com", "");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		wait.until(ExpectedConditions.urlContains("https://www.bunnings.com.au/"));
 		System.out.print(driver.getCurrentUrl());
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}
@@ -143,12 +113,6 @@ public class MainTest {
 	@Test
 	public void testEmptyUsernameAndEmptyPassword() {
 		login("", "");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		System.out.print(driver.getCurrentUrl());
 		Assert.assertFalse(driver.getCurrentUrl().equals("https://www.bunnings.com.au/"));
 	}	
