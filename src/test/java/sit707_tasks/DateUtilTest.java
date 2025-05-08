@@ -528,4 +528,103 @@ public class DateUtilTest {
 		Assert.assertEquals(03, date.getMonth());
 		Assert.assertEquals(2019, date.getYear());
 	}
+	//	3.3 D
+	@Test
+    public void testDayEquivalenceOneToNine() {
+        // Equivalence class 1-9
+        DateUtil date = new DateUtil(3, 1, 2021);
+        date.increment();
+        System.out.println(date);
+        Assert.assertEquals(4, date.getDay());
+        Assert.assertEquals(1, date.getMonth());
+        Assert.assertEquals(2021, date.getYear());
+    }
+
+    @Test
+    public void testDayEquivalenceTenToTwenty() {
+        // Equivalence class 10-20
+        DateUtil date = new DateUtil(13, 2, 2021);
+        date.decrement();
+        System.out.println(date);
+        Assert.assertEquals(12, date.getDay());
+        Assert.assertEquals(2, date.getMonth());
+        Assert.assertEquals(2021, date.getYear());
+    }
+
+    @Test
+    public void testDayEquivalenceTwentyOneToTowentyEight() {
+        // Equivalence class 21-28
+        DateUtil date = new DateUtil(23, 3, 2021);
+        date.increment();
+        System.out.println(date);
+        Assert.assertEquals(24, date.getDay());
+        Assert.assertEquals(3, date.getMonth());
+        Assert.assertEquals(2021, date.getYear());
+    }
+
+    @Test
+    public void testDayEquivalenceTwentyNineToThirtyOne() {
+        // Equivalence class 29-31
+        DateUtil date = new DateUtil(30, 4, 2021);
+        date.decrement();
+        System.out.println(date);
+        Assert.assertEquals(29, date.getDay());
+        Assert.assertEquals(4, date.getMonth());
+        Assert.assertEquals(2021, date.getYear());
+    }
+
+    @Test
+    public void testEquivalenceMonthsWithThirtyDays() {
+    	// June 25, 2021 (Month with 30 days)
+        DateUtil date = new DateUtil(25, 6, 2021); 
+        date.increment();
+        System.out.println(date);
+        Assert.assertEquals(26, date.getDay());
+        Assert.assertEquals(6, date.getMonth());
+        Assert.assertEquals(2021, date.getYear());
+    }
+
+    @Test
+    public void testEquivalenceMonthsWithThirtyOneDays() {
+    	// July 15, 2021 (Month with 31 days)
+        DateUtil date = new DateUtil(15, 7, 2021); 
+        date.decrement();
+        System.out.println(date);
+        Assert.assertEquals(14, date.getDay());
+        Assert.assertEquals(7, date.getMonth());
+        Assert.assertEquals(2021, date.getYear());
+    }
+
+    @Test
+    public void testMinimumValidYear() {
+    	// January 1, 1700 (Minimum valid year)
+        DateUtil date = new DateUtil(1, 1, 1700); 
+        date.increment();
+        System.out.println(date);
+        Assert.assertEquals(2, date.getDay());
+        Assert.assertEquals(1, date.getMonth());
+        Assert.assertEquals(1700, date.getYear());
+    }
+
+    @Test
+    public void testMaximumValidYear() {
+    	// December 31, 2024 (Maximum valid year)
+        DateUtil date = new DateUtil(31, 12, 2024); 
+        date.decrement();
+        System.out.println(date);
+        Assert.assertEquals(30, date.getDay());
+        Assert.assertEquals(12, date.getMonth());
+        Assert.assertEquals(2024, date.getYear());
+    }
+
+    @Test
+    public void testMinimumValidDate() {
+    	// January 1, 1700 (Minimum valid date)
+        DateUtil date = new DateUtil(1, 1, 1700); 
+        date.decrement();
+        System.out.println(date);
+        Assert.assertEquals(31, date.getDay());
+        Assert.assertEquals(12, date.getMonth());
+        Assert.assertEquals(1699, date.getYear());
+    }
 }
