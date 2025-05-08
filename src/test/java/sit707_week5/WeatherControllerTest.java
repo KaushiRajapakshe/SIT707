@@ -1,10 +1,8 @@
 package sit707_week5;
 
-import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.Date;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
