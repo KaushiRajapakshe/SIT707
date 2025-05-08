@@ -1,6 +1,8 @@
 package sit707_week5;
 
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
@@ -10,6 +12,12 @@ public class WeatherController {
 	public static final int HOURS_PER_DAY = 24;
 
 	private static WeatherController instance;
+	private static WeatherController clockInstance;
+	private Clock clock;
+	
+	public WeatherController(Clock clock) {
+        this.clock = clock;
+    }
 	
 	/**
 	 * Factory method for single instance WeatherController.
@@ -20,6 +28,13 @@ public class WeatherController {
 			instance = new WeatherController();
 		}
 		return instance;
+	}
+	
+	public static WeatherController getInstance(Clock clock) {
+		if (clockInstance == null) {
+			clockInstance = new WeatherController(clock);
+		}
+		return clockInstance;
 	}
 	
 	// Initialise 10 hourly temperature
@@ -116,8 +131,8 @@ public class WeatherController {
 	 * @return
 	 */
 	public String persistTemperature(int hour, double temperature) {
-		SimpleDateFormat sdf = new SimpleDateFormat("H:m:s");
-		String savedTime = sdf.format(new Date());
+		Instant now = Instant.now(clock);
+		String savedTime = now.toString();
 		System.out.println("Temperature: " + temperature + " of hour: " + hour + ", saved at " + savedTime);
 		
 		// sleep a while to simulate a delay

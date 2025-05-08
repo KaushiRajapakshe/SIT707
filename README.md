@@ -1,5 +1,5 @@
-## Unit test standards 1: AAA & FIRST
-This project implements how to use Junit with Java to do the testing using AAA &FIRST standards for implementation.
+## Unit test standards 2: AAA & FIRST
+This project implements how to use Junit with Java to do the testing using AAA & FIRST standards for implementation.
 
 
 ## Requirements
@@ -11,7 +11,7 @@ This project implements how to use Junit with Java to do the testing using AAA &
 
 1. Clone this repository.
 
-2. Checkout to `week05_5.1P` branch.
+2. Checkout to `week05_5.2C` branch.
 
 3. Open eclips and import the project (as a maven project).
 
