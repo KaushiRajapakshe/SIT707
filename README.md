@@ -80,3 +80,7 @@ mvn clean test
 
 # Package the project
 mvn clean install
+
+```
+
+In here we are using github action to automate continues integration.

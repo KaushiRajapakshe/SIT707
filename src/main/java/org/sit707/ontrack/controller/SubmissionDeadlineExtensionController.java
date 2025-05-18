@@ -87,8 +87,6 @@ public class SubmissionDeadlineExtensionController {
 
     @GetMapping
     public void helloWord(){
-        System.out.println("############################");
         System.out.println("Hello World");
-        System.out.println("############################");
     }
 }
