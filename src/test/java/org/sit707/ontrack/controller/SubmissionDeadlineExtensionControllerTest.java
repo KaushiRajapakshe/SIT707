@@ -101,7 +101,7 @@ class SubmissionDeadlineExtensionControllerTest {
         ResponseEntity<String> response = submissionDeadlineExtensionController.sendDeadlineExtensionRequest(createDeadlineExtensionDataSet);
         verify(deadlineExtensionService, times(1)).sendDeadlineExtensionRequest(createDeadlineExtensionDataSet);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("successful", response.getBody());
+        assertEquals("successfull", response.getBody());
     }
 
     @Test
