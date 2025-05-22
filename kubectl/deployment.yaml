@@ -5,21 +5,15 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchLabels: { app: deakin-ontrack }
+    matchLabels:
+      app: deakin-ontrack
   template:
     metadata:
-      labels: { app: deakin-ontrack }
+      labels:
+        app: deakin-ontrack
     spec:
       containers:
         - name: deakin-ontrack
           image: australia-southeast2-docker.pkg.dev/deakin-ontrack/deakin-ontrack-repo/deakin-ontrack:1
           ports:
             - containerPort: 8080
-          readinessProbe:
-            httpGet: { path: /actuator/health, port: 8080 }
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          livenessProbe:
-            httpGet: { path: /actuator/health, port: 8080 }
-            initialDelaySeconds: 30
-            periodSeconds: 20

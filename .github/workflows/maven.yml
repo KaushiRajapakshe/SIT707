@@ -7,63 +7,58 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build & Test
-        run: mvn clean verify -B
 
-  package-and-push:
-    needs: build-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
-      - name: Authenticate GCP
+      - name: Build and test with Maven
+        run: mvn clean install
+
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ontrack-extension-artifact
+          path: target/*.jar
+
+      - name: Authenticate with GCP
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Configure Docker
+      - name: Configure Docker to use Artifact Registry
         run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
 
       - name: Build Docker image
         run: docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_REGISTRY }}/deakin-ontrack:1 .
 
-      - name: Push to Artifact Registry
+      - name: Push Docker image to Artifact Registry
         run: docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_REGISTRY }}/deakin-ontrack:1
 
-  deploy-to-gke:
-    needs: package-and-push
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Authenticate GCP
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Set up gcloud
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.GCP_PROJECT }}
-          install_components: gke-gcloud-auth-plugin
-
-      - name: Get GKE credentials
+      - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v1
         with:
           cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
           location: ${{ secrets.GCP_REGION }}
 
-      - name: Deploy to Kubernetes
+      - name: Deploy to GKE
         run: |
-          IMAGE=${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_REGISTRY }}/deakin-ontrack:1
-          kubectl set image deployment/deakin-ontrack deakin-ontrack=$IMAGE 
-          kubectl rollout status deployment/deakin-ontrack --timeout=120s
+          kubectl apply -f kubectl/deployment.yaml
+          kubectl apply -f kubectl/service.yaml
+
+      - name: Verify Kubernetes resources
+        run: |
+          kubectl get pods
+          kubectl get services
+          kubectl get deployment
