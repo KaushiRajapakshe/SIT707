@@ -40,13 +40,11 @@ jobs:
       - name: Configure Docker to use Artifact Registry
         run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
 
-      - name: Rename JAR to app.jar for Docker
-        run: |
-          ls -la target
-          cp target/OnTrack-0.0.1-SNAPSHOT.jar target/app.jar
+      - name: Rename JAR to app.jar
+        run: cp target/OnTrack-0.0.1-SNAPSHOT.jar app.jar
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_REGISTRY }}/deakin-ontrack:1 .
+        run: docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_REGISTRY }}/deakin-ontrack:1 ./docker
 
       - name: Push Docker image to Artifact Registry
         run: docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_REGISTRY }}/deakin-ontrack:1
