@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+psycopg2-binary
+pytest
+httpx
+pytest-asyncio
+python-dotenv
+web3==5.31.3
+eth-typing==2.3.0

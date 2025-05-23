@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-catalog
+  template:
+    metadata:
+      labels:
+        app: book-catalog
+    spec:
+      containers:
+      - name: book-catalog
+        image: australia-southeast2-docker.pkg.dev/book-catalog-deakin/book-catalog-repo/book-catalog:1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
+        env:
+        - name: PORT
+          value: "8080"
+        - name: DATABASE_URL
+          value: "postgresql://book_catalog_l1mv_user:HMb59Hj8vzIgb3IyLtQTKy9rQ0bN8lDy@dpg-d0ns64buibrs73c4dacg-a.singapore-postgres.render.com/book_catalog_l1mv"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-catalog
+spec:
+  type: LoadBalancer
+  selector:
+    app: book-catalog
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
