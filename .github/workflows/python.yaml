@@ -49,7 +49,7 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-          kubectl apply -f scripts/deployment.yaml
+          kubectl apply -f scripts/deployment.yml
 
       - name: Verify Kubernetes resources
         run: |
