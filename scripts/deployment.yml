@@ -16,7 +16,7 @@ spec:
       - name: book-catalog
         image: australia-southeast2-docker.pkg.dev/book-catalog-deakin/book-catalog-repo/book-catalog:1
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
         env:
         - name: PORT
           value: "8080"
