@@ -9,10 +9,14 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class WeatherControllerTest {
 	
 	private static WeatherController wController;
 	private static double[] todaysHourlyTemperature;
+	private static final Logger logger = LoggerFactory.getLogger(WeatherControllerTest.class);
 	
 	@BeforeClass
 	public static void startUp() {
@@ -37,22 +41,24 @@ public class WeatherControllerTest {
 	@Test
 	public void testStudentIdentity() {
 		String studentId = "s223681886";
+		logger.debug("Student ID is not null: {}", studentId);
 		Assert.assertNotNull("Student ID is not null", studentId);
 	}
 
 	@Test
 	public void testStudentName() {
 		String studentName = "Kaushalya Rajapaksha";
+		logger.debug("Student name is not null: {}", studentName);
 		Assert.assertNotNull("Student name is not null", studentName);
 	}
 
 	@Test
 	public void testTemperatureMin() {
-		System.out.println("+++ testTemperatureMin +++");
+		logger.info("+++ testTemperatureMin +++");
 		
 		// Retrieve all the hours temperatures recorded as for today
 		int nHours = wController.getTotalHours();
-		double minTemperature = 1000;
+		double minTemperature = Double.MAX_VALUE;
 		for (int i=0; i<nHours; i++) {
 			// Hour range: 1 to nHours
 			double temperatureVal = todaysHourlyTemperature[i]; 
@@ -60,20 +66,19 @@ public class WeatherControllerTest {
 				minTemperature = temperatureVal;
 			}
 		}
-		
 		// Should be equal to the min value that is cached in the controller.
 		Assert.assertTrue(wController.getTemperatureMinFromCache() == minTemperature);
-			
+		logger.debug("Calculated min temperature: {}, Cached min: {}", 
+                minTemperature, wController.getTemperatureMinFromCache());
 	}
 	
 	@Test
 	public void testTemperatureMax() {
-		System.out.println("+++ testTemperatureMax +++");
-		
+		logger.info("+++ testTemperatureMax +++");
 		
 		// Retrieve all the hours temperatures recorded as for today
 		int nHours = wController.getTotalHours();
-		double maxTemperature = -1;
+		double maxTemperature = Double.MIN_VALUE;
 		for (int i=0; i<nHours; i++) {
 			// Hour range: 1 to nHours
 			double temperatureVal = todaysHourlyTemperature[i]; 
@@ -82,14 +87,15 @@ public class WeatherControllerTest {
 			}
 		}
 		
-		// Should be equal to the min value that is cached in the controller.
+		// Should be equal to the max value that is cached in the controller.
 		Assert.assertTrue(wController.getTemperatureMaxFromCache() == maxTemperature);
-		
+		logger.debug("Calculated max temperature: {}, Cached max: {}", 
+				maxTemperature, wController.getTemperatureMaxFromCache());
 	}
 
 	@Test
 	public void testTemperatureAverage() {
-		System.out.println("+++ testTemperatureAverage +++");
+		logger.info("+++ testTemperatureAverage +++");
 		
 		// Retrieve all the hours temperatures recorded as for today
 		int nHours = wController.getTotalHours();
@@ -101,30 +107,24 @@ public class WeatherControllerTest {
 		}
 		double averageTemp = sumTemp / nHours;
 		
-		// Should be equal to the min value that is cached in the controller.
+		// Should be equal to the avg value that is cached in the controller.
 		Assert.assertTrue(wController.getTemperatureAverageFromCache() == averageTemp);
-
+		logger.debug("Calculated avg temperature: {}, Cached avg: {}", 
+				averageTemp, wController.getTemperatureAverageFromCache());
 	}
 	
 	@Test
 	public void testTemperaturePersist() {
-		/*
-		 * Remove below comments ONLY for 5.3C task.
-		 */
-		System.out.println("+++ testTemperaturePersist +++");
-		
+		logger.info("+++ testTemperaturePersist +++");
+
 		Instant fixedInstant = Instant.parse("2025-04-08T12:00:00Z");
 		Clock fixedClock = Clock.fixed(fixedInstant, ZoneId.systemDefault());
 		
-		// Initialise controller
-		WeatherController wController = WeatherController.getInstance(fixedClock);
+		wController = WeatherController.getInstance(fixedClock);
 		
 		String persistTime = wController.persistTemperature(10, 19.5);
-//		String now = new SimpleDateFormat("H:m:s").format(new Date());
-		System.out.println("Persist time: " + persistTime + ", now: " + fixedInstant.toString());
 		
 		Assert.assertEquals(fixedInstant.toString(), persistTime);
-		
-		wController.close();
+		logger.info("Temperature persist time: {} , current time: {}", persistTime, fixedInstant.toString());
 	}
 }
